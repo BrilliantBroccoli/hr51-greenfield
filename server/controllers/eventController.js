@@ -4,7 +4,7 @@ const userRepository = require('../db/userRepository');
 
 
 module.exports = {
-  getEvent : (req, res) => {
+  getEvent: (req, res) => {
     let category = req.query.category;
     let date = req.query.date || 'Today';
     let page = req.query.page || 1;
@@ -17,7 +17,7 @@ module.exports = {
     //userRepo to add request to db
     userRepository.register(req.connection.remoteAddress, category)
     .then((result) => {
-      console.log('Success: registered User. In the category:', category)
+      console.log('Success: registered User. In the category:', category);
     }).catch((error) => {
       console.error('Error in saving User', error);
     });
@@ -29,8 +29,8 @@ module.exports = {
       res.send(response.data);
     })
     .catch((error) => {
-      console.error(error);
-    })
-  } 
+      console.log(error);
+    });
+  }
 
 };

@@ -2,7 +2,5 @@
 # hr51-greenfield
 hr51 greenfield
 
-Jennifer Lê - Team Member
+Jennifer Lê - Product Manager
 Sean O'Neal - Scrum Master
-Chike Onuorah - Product Manager
-Michael Comes - Team Member

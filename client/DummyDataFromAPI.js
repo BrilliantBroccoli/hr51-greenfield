@@ -1,7 +1,7 @@
 //Michael, below is an example of the data we get back from the API requested from our server
 
 {
-  "last_item": null,
+  "last_item" : null,
   "total_items": "1299",
   "first_item": null,
   "page_number": "1",
