@@ -6,7 +6,7 @@ const EventsList = (props) => {
     <ul>
       {props.events.map(event => {
         return (
-        <EventListItem event={event} key={event.eventId} removeEvent={props.removeEvent} />
+        <EventListItem event={event} key={event.id} removeEvent={props.removeEvent} />
         );
       })};
     </ul>

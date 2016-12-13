@@ -9,36 +9,45 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventList: exampleData
+      eventList: []
     };
   }
   componentWillMount() {
     const success = (data) => {
       this.setState({
-        eventList: data
+        eventList: data.events.event
       });
     };
+    if (!!navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        $.ajax({
+          url: 'http://127.0.0.1:3000/api/event',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            category: 'social',
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+          success: success,
+          error: function(xhr, textStatus, error) {
+            console.log('text status', textStatus);
+          }
+        });
+      });
+    }
+  }
+  addEvent(category) {
     $.ajax({
       url: 'http://127.0.0.1:3000/api/event',
-      type: 'GET',
-      dataType: 'json',
-      success: success,
-      error: function(xhr, textStatus, error) {
-        console.log('text status', textStatus);
-      }
-    });
-  }
-  addEvent(newEvent) {
-    $.ajax({
-      url: 'event', //TODO: add in the event details
       method: 'GET',
       dataType: 'json',
       data: {
-        category: newEvent
+        category: category
       },
       success: function(data) {
         this.setState({
-          eventList: this.state.eventList.concat(data)
+          eventList: this.state.eventList.concat(data.events.event)
         });
       },
       error: function(xhr, textStatus, error) {
@@ -47,6 +56,7 @@ class App extends React.Component {
     });
   }
   removeEvent(deleteEvent) {
+    console.log(deleteEvent, 'event to delete');
     this.setState({
       eventList: this.state.eventList.filter( event => {
         return event.title !== deleteEvent;
@@ -56,9 +66,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Greenfield!</h1>
+        <h1>Today's Suggested Events</h1>
         <EventInput addEvent={this.addEvent.bind(this)} />
-        <EventsList events={this.state.eventList} />
+        <EventsList events={this.state.eventList} removeEvent={this.removeEvent.bind(this)} />
       </div>
     );
   }

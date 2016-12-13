@@ -8,7 +8,9 @@ module.exports = {
     let category = req.query.category;
     let date = req.query.date || 'Today';
     let page = req.query.page || 1;
-    let location = req.query.location || 'California';
+    let lat = req.query.latitude;
+    let long = req.query.longitude;
+    let location = lat + ', ' + long || 'New York';
 
     if (!category) {
       return res.status(400).send('category must be defined');
@@ -24,7 +26,7 @@ module.exports = {
 
     // in parallel, runs a request to api while adding to db
     //get to api from server with axios
-    axios.get('http://api.eventful.com/json/events/search?app_key=' + apiKey + '&c=' + category + '&date=' + date + '&page_size=4' + '&page_number=' + page + '&location=' + location)
+    axios.get('http://api.eventful.com/json/events/search?app_key=' + apiKey + '&c=' + category + '&location=' + location + '&date=' + date + '&page_size=4' + '&page_number=' + page)
     .then((response) => {
       res.send(response.data);
     })
